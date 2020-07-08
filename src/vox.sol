@@ -90,8 +90,8 @@ contract DssVox {
     function file(bytes32 what, uint256 data) external auth {
         require(spot.live() == 1, "DssVox/Spotter-not-live");
         require(now == tau, "DssVox/tau-not-updated");
-        if (what == 'way') way = data;
-        if (what == 'cap') cap = data;
+        if (what == "way") way = data;
+        else if (what == "cap") cap = data;
         else revert("DssVox/file-unrecognized-param");
     }
 
