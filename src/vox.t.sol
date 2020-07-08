@@ -88,6 +88,9 @@ contract DssVoxTest is DSTest {
     }
 
     function setUp() public {
+        hevm = Hevm(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
+        hevm.warp(604411200);
+
         vat = new Vat();
 
         DSToken gov = new DSToken('GOV');
@@ -101,11 +104,23 @@ contract DssVoxTest is DSTest {
 
         spot = new Spotter(address(vat));
         vat.rely(address(spot));
+
         vox = new DssVox(address(spot));
+        spot.rely(address(vox));
     }
 
     function test_prod_noop() public {
         Ilk memory gold = init_collateral("gold");
+        vox.prod();
+    }
+
+    function test_prod_basic() public {
+        Ilk memory gold = init_collateral("gold");
+        vox.prod();
+        // -5% per hour
+        vox.file("way", ray(0.9999857519641744 ether));
+
+        hevm.warp(now + 1 hours);
         vox.prod();
     }
 }
