@@ -89,6 +89,7 @@ contract DssVox {
     // --- administration ---
     function file(bytes32 what, uint256 data) external auth {
         require(spot.live() == 1, "DssVox/Spotter-not-live");
+        require(now == tau, "DssVox/tau-not-updated");
         if (what == 'way') way = data;
         if (what == 'cap') cap = data;
         else revert("DssVox/file-unrecognized-param");
@@ -96,13 +97,13 @@ contract DssVox {
 
     // --- target price adjustment ---
     function prod() external {
-        if (way == ONE) return;        // optimised
         uint256 age = sub(now, tau);
-        if (age == 0) return;          // optimised
         tau = now;
 
-        // no adjustment after cage
-        if (spot.live() == 0) return;
+        if (age == 0) return;          // optimised
+        if (way == ONE) return;        // optimised
+        if (spot.live() == 0) return;  // no adjustment after cage
+
         uint256 par = max(cap, rmul(rpow(way, age, ONE), spot.par()));
         spot.file("par", par);
     }
