@@ -34,8 +34,8 @@ contract DssVox {
     }
 
     uint256 public way;
-    uint256 public tau;
     uint256 public cap;
+    uint256 public tau;
 
     SpotLike public spot;
 
@@ -88,9 +88,9 @@ contract DssVox {
 
     // --- administration ---
     function file(bytes32 what, uint256 data) external auth {
-        require(spot.live() == 1, "DssVox/Spotter-not-live");
         require(now == tau, "DssVox/tau-not-updated");
-        if (what == "way") way = data;
+        require(spot.live() == 1, "DssVox/Spotter-not-live");
+        if      (what == "way") way = data;
         else if (what == "cap") cap = data;
         else revert("DssVox/file-unrecognized-param");
     }
