@@ -43,8 +43,9 @@ contract DssVox {
     constructor(address spot_) public {
         wards[msg.sender] = 1;
         spot = SpotLike(spot_);
-        tau = now;
+        way = ONE;
         cap = ONE;
+        tau = now;
     }
 
     // --- math ---
