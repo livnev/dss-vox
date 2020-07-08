@@ -87,7 +87,6 @@ contract DssVoxTest is DSTest {
         return ilks[name];
     }
 
-
     function setUp() public {
         vat = new Vat();
 
@@ -105,7 +104,7 @@ contract DssVoxTest is DSTest {
         vox = new DssVox(address(spot));
     }
 
-    function test_prod_basic() public {
+    function test_prod_noop() public {
         Ilk memory gold = init_collateral("gold");
         vox.prod();
     }
