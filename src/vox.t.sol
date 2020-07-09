@@ -19,7 +19,6 @@ import {DssVox} from "./vox.sol";
 contract Hevm {
     function warp(uint256) public;
     function store(address,bytes32,bytes32) public;
-    function lol() public;
 }
 
 contract WETH {
