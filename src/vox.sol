@@ -50,8 +50,8 @@ contract DssVox {
 
     // --- math ---
     uint256 constant ONE = 10 ** 27;
-    function max(uint x, uint y) internal pure returns (uint z) {
-        if (x < y) { z = y; } else { z = x; }
+    function min(uint x, uint y) internal pure returns (uint z) {
+        if (x > y) { z = y; } else { z = x; }
     }
     function sub(uint x, uint y) internal pure returns (uint z) {
         require((z = x - y) <= x);
@@ -104,7 +104,7 @@ contract DssVox {
         if (way == ONE) return;        // optimised
         if (spot.live() == 0) return;  // no adjustment after cage
 
-        uint256 par = max(cap, rmul(rpow(way, age, ONE), spot.par()));
+        uint256 par = min(cap, rmul(rpow(way, age, ONE), spot.par()));
         spot.file("par", par);
     }
 }
